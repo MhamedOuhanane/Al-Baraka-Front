@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {CookieService} from '../services/cookie-service';
 import {lastValueFrom} from 'rxjs';
+import {Router} from '@angular/router';
 
 export interface UserState {
   uuid: String | null,
@@ -16,6 +17,7 @@ export interface UserState {
 export class AuthService {
   private http = inject(HttpClient);
   private cookieService = inject(CookieService);
+  private router = inject(Router);
 
   private readonly API_URL = `${environment.apiUrl}/auth`;
 
@@ -47,6 +49,14 @@ export class AuthService {
     }
 
     return res;
+  }
+
+  logout() {
+    this.cookieService.deleteCookie("uuid");
+    this.cookieService.deleteCookie("token");
+    this.cookieService.deleteCookie("role");
+    this.authState.set({uuid: null, token: null, role: null});
+    this.router.navigate(['/login']);
   }
 
   getAuthState() {
