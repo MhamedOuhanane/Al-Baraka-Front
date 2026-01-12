@@ -16,5 +16,10 @@ export const routes: Routes = [
     path: '403',
     loadComponent: () => import("./features/auth/forbidden-component/forbidden-component")
       .then(m => m.ForbiddenComponent)
+  },
+  {
+    path: '**',
+    loadComponent: () => import('./features/auth/not-found-component/not-found-component')
+      .then(m => m.NotFoundComponent)
   }
 ];
