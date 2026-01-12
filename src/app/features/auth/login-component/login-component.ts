@@ -1,17 +1,17 @@
 import {Component, inject, signal} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {CommonModule} from '@angular/common';
 import {AuthService} from '../../../core/auth/auth-service';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
+import {CommonModule} from '@angular/common';
 
 @Component({
-  selector: 'app-register-component',
-  imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './register-component.html',
-  styleUrl: './register-component.css',
+  selector: 'app-login-component',
+  imports: [ReactiveFormsModule, RouterLink],
+  templateUrl: './login-component.html',
+  styleUrl: './login-component.css',
 })
-export class RegisterComponent {
+export class LoginComponent {
   private formBuilder = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
@@ -20,28 +20,21 @@ export class RegisterComponent {
   message = signal('');
   fieldErrors = signal<any>({});
 
-  registerForm: FormGroup = this.formBuilder.group({
-    fullName: ['', [Validators.required]],
+  loginForm: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    confirmPassword: ['', [Validators.required]],
-    role: ['CLIENT']
-  }, { validators: this.passwordMatchValidator });
-
-  passwordMatchValidator(g: FormGroup) {
-    return g.get('password')?.value === g.get('confirmPassword')?.value
-        ? null : { mismatch: true};
-  }
+    password: ['', [Validators.required]]
+  });
 
   onSubmit() {
-    if (this.registerForm.valid) {
+    if (this.loginForm.valid) {
       this.isLoading.set(true);
-      this.fieldErrors.set({});
+      this.fieldErrors.set({})
+      this.message.set('');
 
-      this.authService.register(this.registerForm.value).subscribe({
+      this.authService.login(this.loginForm.value).subscribe({
         next: () => {
-          alert('Compte créé avec succès !');
-          this.router.navigate(['/login']);
+          alert('Connexion réussie ! Redirection...')
+          // this.router.navigate(["/dashboard"]);
         },
         error: (err: HttpErrorResponse) => {
           this.isLoading.set(false);

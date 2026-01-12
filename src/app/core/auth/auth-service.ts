@@ -13,7 +13,7 @@ export class AuthService {
     return this.http.post(`${this.API_URL}/register`, registerData);
   }
 
-  login(registerData: any) {
-    return this.http.post(`${this.API_URL}/login`, registerData);
+  login(loginData: any) {
+    return this.http.post(`${this.API_URL}/login`, loginData);
   }
 }
