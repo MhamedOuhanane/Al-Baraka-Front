@@ -1,10 +1,12 @@
 import {CanActivateFn, Router} from '@angular/router';
 import {inject} from '@angular/core';
 import {AuthService} from '../auth/auth-service';
+import {RedirectService} from '../services/redirect-service';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
+  const redirectService = inject(RedirectService);
 
   if (!authService.isAuthenticated()) {
     alert("Veuillez d'abord vous connecter.")
@@ -15,8 +17,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   const userRole = authService.userRole();
 
   if (expectedRoles && !expectedRoles.includes(userRole || '')) {
-    alert("Vous n'avez pas la permission d'accéder à cette page");
-
+    redirectService.redirectToForbidden();
   }
 
     return true;

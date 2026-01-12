@@ -11,5 +11,10 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () => import("./features/auth/login-component/login-component")
       .then(m => m.LoginComponent)
+  },
+  {
+    path: '403',
+    loadComponent: () => import("./features/auth/forbidden-component/forbidden-component")
+      .then(m => m.ForbiddenComponent)
   }
 ];

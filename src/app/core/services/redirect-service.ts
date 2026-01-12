@@ -12,6 +12,10 @@ export class RedirectService {
   getRoleBasedRoute(): string {
     const role = this.authService.userRole();
 
+    if (!role) {
+      return "/login";
+    }
+
     switch (role) {
       case "ROLE_ADMIN": return "/admin";
       case "ROLE_AGENT": return "/agent";
