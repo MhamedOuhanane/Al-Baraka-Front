@@ -18,7 +18,7 @@ export class RegisterComponent {
 
   isLoading = signal(false);
   message = signal('');
-  fieldError = signal<any>({});
+  fieldErrors = signal<any>({});
 
   registerForm: FormGroup = this.formBuilder.group({
     fullName: ['', [Validators.required]],
@@ -36,7 +36,7 @@ export class RegisterComponent {
   onSubmit() {
     if (this.registerForm.valid) {
       this.isLoading.set(true);
-      this.fieldError.set({});
+      this.fieldErrors.set({});
       this.message.set('');
 
       this.authService.register(this.registerForm.value).subscribe({
@@ -47,7 +47,7 @@ export class RegisterComponent {
         error: (err: HttpErrorResponse) => {
           this.isLoading.set(false);
           if (err.status === 400 && err.error.error) {
-            this.fieldError.set(err.error.error);
+            this.fieldErrors.set(err.error.error);
           } else {
             this.message.set(err.error.message || 'Une erreur est survenue');
           }
