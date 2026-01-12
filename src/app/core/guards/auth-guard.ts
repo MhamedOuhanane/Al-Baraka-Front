@@ -16,6 +16,7 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   if (expectedRoles && !expectedRoles.includes(userRole || '')) {
     alert("Vous n'avez pas la permission d'accéder à cette page");
+
   }
 
     return true;
