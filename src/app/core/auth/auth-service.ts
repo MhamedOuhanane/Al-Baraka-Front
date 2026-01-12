@@ -48,4 +48,8 @@ export class AuthService {
 
     return res;
   }
+
+  getAuthState() {
+    return this.authState();
+  }
 }
